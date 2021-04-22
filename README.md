@@ -85,6 +85,7 @@ help - Get Detailed Help
 log - Bot Log [owner only]
 ```
 
+
 # How to deploy?
 Deploying is pretty much straight forward and is divided into several steps as follows:
 ## Installing requirements
@@ -99,11 +100,18 @@ cd mirror-bot
 For Debian based distros
 ```
 sudo apt install python3
-sudo snap install docker 
 ```
+Install Docker by following the [official docker docs](https://docs.docker.com/engine/install/debian/)
+
+
 - For Arch and it's derivatives:
 ```
 sudo pacman -S docker python
+```
+
+- Install dependencies for running setup scripts:
+```
+pip3 install -r requirements-cli.txt
 ```
 
 ## Setting up config file
@@ -126,8 +134,8 @@ Fill up rest of the fields. Meaning of each fields are discussed below:
 - **INDEX_URL** : (Optional field) Refer to https://github.com/maple3142/GDIndex/ The URL should not have any trailing '/'
 - **API_KEY** : This is to authenticate to your telegram account for downloading Telegram files. You can get this from https://my.telegram.org DO NOT put this in quotes.
 - **API_HASH** : This is to authenticate to your telegram account for downloading Telegram files. You can get this from https://my.telegram.org
-- **MEGA_API_KEY**: Mega.nz api key to mirror mega.nz links. Get it from [Mega SDK Page](https://mega.nz/sdk)
-- **MEGA_EMAIL_ID**: Your email id you used to sign up on mega.nz for using premium accounts (Leave th)
+- **MEGA_KEY**: Mega.nz api key to mirror mega.nz links. Get it from [Mega SDK Page](https://mega.nz/sdk)
+- **MEGA_USERNAME**: Your email id you used to sign up on mega.nz for using premium accounts (Leave th)
 - **MEGA_PASSWORD**: Your password for your mega.nz account 
 - **STOP_DUPLICATE_MIRROR**: (Optional field) (Leave empty if unsure) if this field is set to `True` , bot will check file in drive, if it is present in drive, downloading will ne stopped. (Note - File will be checked using filename, not using filehash, so this feature is not perfect yet)
 - **BLOCK_MEGA_LINKS**: (Optional field) If you want to remove mega.nz mirror support (bcoz it's too much buggy and unstable), set it to `True`.
@@ -153,7 +161,7 @@ Note: You can limit maximum concurrent downloads by changing the value of MAX_CO
 - Visit the [Google Cloud Console](https://console.developers.google.com/apis/credentials)
 - Go to the OAuth Consent tab, fill it, and save.
 - Go to the Credentials tab and click Create Credentials -> OAuth Client ID
-- Choose Desktop and Create.
+- Choose Other and Create.
 - Use the download button to download your credentials.
 - Move that file to the root of mirror-bot, and rename it to credentials.json
 - Visit [Google API page](https://console.developers.google.com/apis/library)
@@ -181,26 +189,27 @@ sudo docker run mirror-bot
 # Using service accounts for uploading to avoid user rate limit
 For Service Account to work, you must set USE_SERVICE_ACCOUNTS="True" in config file or environment variables
 Many thanks to [AutoRClone](https://github.com/xyou365/AutoRclone) for the scripts
+**NOTE:** Using service accounts is only recommended while uploading to a team drive.
 ## Generating service accounts
 Step 1. Generate service accounts [What is service account](https://cloud.google.com/iam/docs/service-accounts)
 ---------------------------------
 Let us create only the service accounts that we need. 
-**Warning:** abuse of this feature is not the aim of autorclone and we do **NOT** recommend that you make a lot of projects, just one project and 100 sa allow you plenty of use, its also possible that overabuse might get your projects banned by google. 
+**Warning:** abuse of this feature is not the aim of this project and we do **NOT** recommend that you make a lot of projects, just one project and 100 sa allow you plenty of use, its also possible that over abuse might get your projects banned by google. 
 
 ```
-Note: 1 service account can copy around 750gb a day, 1 project makes 100 service accounts so thats 75tb a day, for most users this should easily suffice. 
+Note: 1 service account can copy around 750gb a day, 1 project can make 100 service accounts so that's 75tb a day, for most users this should easily suffice. 
 ```
 
 `python3 gen_sa_accounts.py --quick-setup 1 --new-only`
 
-A folder named accounts will be created which will contain keys for the service accounts created
+A folder named accounts will be created which will contain keys for the service accounts
 
 NOTE: If you have created SAs in past from this script, you can also just re download the keys by running:
 ```
 python3 gen_sa_accounts.py --download-keys project_id
 ```
 
-### Add all the service accounts to the Team Drive or folder
+### Add all the service accounts to the Team Drive
 - Run:
 ```
 python3 add_to_team_drive.py -d SharedTeamDriveSrcID

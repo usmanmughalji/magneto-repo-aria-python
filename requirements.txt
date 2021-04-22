@@ -16,3 +16,4 @@ telegraph
 tenacity
 TgCrypto
 youtube_dl
+megasdkrestclient>=0.1.1,<1.0.0

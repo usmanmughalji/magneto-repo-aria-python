@@ -62,11 +62,12 @@ class AriaDownloadHelper(DownloadHelper):
     def __onDownloadStopped(self, api, gid):
         LOGGER.info(f"onDownloadStop: {gid}")
         dl = getDownloadByGid(gid)
-        if dl: dl.getListener().onDownloadError('Download stopped by user!')
+        if dl:
+            dl.getListener().onDownloadError('Download stopped by user!')
 
     @new_thread
     def __onDownloadError(self, api, gid):
-        sleep(0.5) #sleep for split second to ensure proper dl gid update from onDownloadComplete
+        sleep(0.5)  # sleep for split second to ensure proper dl gid update from onDownloadComplete
         LOGGER.info(f"onDownloadError: {gid}")
         dl = getDownloadByGid(gid)
         download = api.get_download(gid)
@@ -89,9 +90,7 @@ class AriaDownloadHelper(DownloadHelper):
             download = aria2.add_uris([link], {'dir': path, 'out': filename})
         if download.error_message: #no need to proceed further at this point
             listener.onDownloadError(download.error_message)
-            return 
+            return
         with download_dict_lock:
-            download_dict[listener.uid] = AriaDownloadStatus(download.gid,listener)
+            download_dict[listener.uid] = AriaDownloadStatus(download.gid, listener)
             LOGGER.info(f"Started: {download.gid} DIR:{download.dir} ")
-
-
