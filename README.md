@@ -1,5 +1,5 @@
-# Important - Please Read It First
-- This repo is fork of the original repo "magneto-python-aria" with latest and last commit from magneto261290. It will stay as it is, nothing will be changed to the sources.
+# Important - Please Read This First
+- This repo is fork of the original repo "magneto-python-aria" with latest commit from magneto261290 and It will stay as it is, nothing will be changed to the sources.
 - This repo is originally authored by lzzy12 and magneto261290.
 
 
