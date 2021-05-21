@@ -1,3 +1,8 @@
+# Important - Please Read It First
+- This repo is fork of the original repo "magneto-python-aria" with latest and last commit from magneto261290. It will stay as it is, nothing will be changed to the sources.
+- This repo is originally authored by lzzy12 and magneto261290.
+
+
 # Important - Read these points first
 - Original repo is https://github.com/lzzy12/python-aria-mirror-bot
 - I have collected some cool features from various repositories and merged them in one.
